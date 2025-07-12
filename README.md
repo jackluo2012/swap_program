@@ -74,3 +74,13 @@ metadataUri: https://gateway.irys.xyz/Db8bubEJN9bxPHQyUp6bdTGLBr8AaK2mh7zAGjemx6
 Done in 343.60s.
 jackluo@jackluo-window:/mnt/d/works/learn/rust/solana/swap-program$
 ```
+
+### 创建 core tokens 文档
+
+[创建 tokens 文档](https://developers.metaplex.com/token-metadata/token-standard)
+
+### 这个文档 不是太靠谱，各种 坑，最终发现有个好的 createminttoken 函数。
+
+```bash
+anchor run create-tokens
+```

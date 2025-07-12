@@ -12,10 +12,12 @@ swap_program = "6wxKPhohXcTb6VqfaU6P7hfL77PmzbS7TxV4C1ctbkMA"
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "localnet"
+#cluster = "localnet"
+cluster = "devnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]
 # 设置upload-jsonw测试用例
 upload-json = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/upload-json.test.ts"
+create-tokens = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/create-tokens.test.ts"
 #test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
