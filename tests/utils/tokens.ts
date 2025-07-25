@@ -5,6 +5,7 @@ import { mplCore } from '@metaplex-foundation/mpl-core'
 import { Connection, PublicKey, Keypair as Web3Keypair } from '@solana/web3.js';
 import { getAssociatedTokenAddressSync, createMintToInstruction } from '@solana/spl-token';
 import { buildTransaction } from './transaction';
+import * as anchor from "@coral-xyz/anchor";
 /**
  * 用 UMI + MPL 创建可替代资产并铸造
  *
@@ -62,7 +63,7 @@ export async function mintExistingTokens(
     mint: PublicKey,
     quantity: number,
     decimals: number
-) {
+): Promise<anchor.web3.TransactionSignature> {
     const tokenAccount = getAssociatedTokenAddressSync(mint, payer.publicKey);
     const mintToWalletIx = createMintToInstruction(
         mint,
@@ -76,6 +77,5 @@ export async function mintExistingTokens(
         [mintToWalletIx],
         [payer]
     )
-    await connection.sendTransaction(tx)
-} 2
-    +
+    return await connection.sendTransaction(tx)
+}

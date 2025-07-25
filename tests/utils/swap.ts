@@ -108,3 +108,15 @@ export async function calculateBalances(
         payPoolBalance,
     ];
 }
+
+export function calculateChangeInK(start: bigint, end: bigint): string {
+    const startNum = Number(start)
+    const endNum = Number(end)
+    if (startNum === 0) {
+        throw new Error("cannot calculate percent change for a zero value.")
+    }
+    const change = endNum - startNum
+    const percentChange = (change / startNum) * 100
+    return percentChange.toFixed(4) + '%'
+
+}

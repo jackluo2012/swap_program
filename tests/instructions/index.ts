@@ -20,6 +20,7 @@ export async function createPool(
     return tx;
 }
 
+//发送一个包含交换程序的“资金池”指令的交易。
 export async function funPool(
     program: anchor.Program<SwapProgram>,
     payer: Keypair,
@@ -27,8 +28,8 @@ export async function funPool(
     mint: PublicKey,
     quantity: number,
     decimals: number,
-) {
-    await program.methods
+): Promise<anchor.web3.TransactionSignature> {
+    const tx = await program.methods
         .fundPool(new anchor.BN(toBigIntQuantity(quantity, decimals).toString()))
         .accounts({
             pool: pool,
@@ -48,6 +49,7 @@ export async function funPool(
         })
         .signers([payer])
         .rpc();
+    return tx;
 }
 export async function swap(
     program: anchor.Program<SwapProgram>,

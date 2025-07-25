@@ -4,7 +4,7 @@ pub mod instructions;
 pub mod state;
 use instructions::*;
 
-declare_id!("6wxKPhohXcTb6VqfaU6P7hfL77PmzbS7TxV4C1ctbkMA");
+declare_id!("4yCxmVu65qfVi4wreCW58yudn8Mz41LJ8yTMUXeoPUTB");
 
 #[program]
 pub mod swap_program {

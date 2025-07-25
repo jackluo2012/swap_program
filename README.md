@@ -84,3 +84,10 @@ jackluo@jackluo-window:/mnt/d/works/learn/rust/solana/swap-program$
 ```bash
 anchor run create-tokens
 ```
+
+### 部署写的 swamp 程序
+
+```bash
+anchor build
+anchor deploy
+```
