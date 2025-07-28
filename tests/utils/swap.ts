@@ -15,28 +15,46 @@ import { get } from "http";
 import { fromBigIntQuantity } from "./tokens";
 
 // 用于获取流动性池的函数
+/**
+ * 获取指定地址的流动性池信息
+ * 
+ * @param program - Anchor程序实例，用于与链上程序交互
+ * @param poolAddress - 流动性池的公钥地址
+ * @returns 返回指定地址的流动性池账户数据
+ */
 export async function fetchPool(
     program: anchor.Program<SwapProgram>,
     poolAddress: PublicKey
 ): Promise<anchor.IdlTypes<anchor.Idl>['LiquidityPool']> {
+    // 通过程序实例获取流动性池账户数据
     return program.account.liquidityPool.fetch(
         poolAddress
     ) as anchor.IdlTypes<anchor.Idl>['LiquidityPool']
 }
 
 // 从流动性池存储的铸币地址列表中获取所有拥有的代币账户
+/**
+ * 获取流动性池的代币账户信息
+ * 
+ * @param connection - Solana网络连接对象
+ * @param poolAddress - 流动性池的公钥地址
+ * @param pool - 流动性池的IDL类型数据，包含资产信息
+ * @returns 返回流动性池相关的代币账户数组
+ */
 export async function fetchPoolTokenAccounts(
     connection: Connection,
     poolAddress: PublicKey,
     pool: anchor.IdlTypes<anchor.Idl>['LiquidityPool']
 ): Promise<TokenAccount[]> {
 
+    // 根据池子的资产信息生成关联代币地址
     const tokenAddresses = pool.assets.map((mint) => getAssociatedTokenAddressSync(
         mint,
         poolAddress,
         true
     ));
 
+    // 批量获取代币账户信息
     return getMultipleTokenAccounts(
         connection,
         tokenAddresses,
@@ -44,9 +62,17 @@ export async function fetchPoolTokenAccounts(
 }
 
 // 计算常数乘积K（常数乘积算法）
+/**
+ * 计算常数乘积做市商模型中的K值
+ * 该函数通过将所有代币账户的余额相乘来计算恒定乘积
+ * 
+ * @param tokenAccounts - 代币账户数组，每个账户包含代币余额信息
+ * @returns 返回所有账户余额的乘积，表示恒定乘积做市商模型中的K值
+ */
 export function calculateConstantProductK(
     tokenAccounts: TokenAccount[]
 ): bigint {
+    // 将所有代币账户的余额相乘，计算恒定乘积K值
     return tokenAccounts.map((account) => account.amount).reduce((product, i) => product * i)
 }
 
